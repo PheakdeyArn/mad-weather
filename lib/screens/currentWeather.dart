@@ -6,6 +6,7 @@ import '../models/weather.dart';
 
 import 'package:http/http.dart' as http;
 import '../utils/constants.dart';
+import '../utils/colors.dart';
 import '../utils/extensions.dart';
 
 import '../models/daily.dart';
@@ -273,7 +274,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
         margin: const EdgeInsets.all(15.0),
         height: 160.0,
         decoration: const BoxDecoration(
-            color: Colors.indigoAccent,
+            color: Colors.lightBlueAccent,
             borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
       ClipPath(
@@ -283,7 +284,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
               margin: const EdgeInsets.all(15.0),
               height: 160.0,
               decoration: BoxDecoration(
-                  color: Colors.indigoAccent[400],
+                  color: Colors.lightBlue,
                   borderRadius: const BorderRadius.all(Radius.circular(20))))),
       Container(
           padding: const EdgeInsets.all(15.0),

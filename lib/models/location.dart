@@ -10,4 +10,13 @@ class Location {
     required this.lat,
     required this.lon});
 
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      city: json['name'],
+      country: json['sys']['country'],
+      lat: json['coord']['lat'].toString(),
+      lon: json['coord']['lon'].toString(),
+    );
+  }
+
 }

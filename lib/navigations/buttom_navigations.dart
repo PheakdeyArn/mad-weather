@@ -6,6 +6,7 @@ import '../utils/colors.dart';
 import '../screens/home.dart';
 import '../screens/location.dart';
 import '../screens/currentWeather.dart';
+import '../screens/search_screen.dart';
 import '../models/location.dart';
 
 
@@ -31,7 +32,8 @@ class _BottomBarState extends State<BottomNavigation> {
   final taps = [
     Home(),
     LocationScreens(),
-    TestCurrent(),
+    // TestCurrent(),
+    SearchTab(),
   ];
 
   @override
@@ -64,11 +66,19 @@ class _BottomBarState extends State<BottomNavigation> {
             inactiveColor: primaryColor
         ),
 
+        // BottomNavyBarItem(
+        //     icon: Container(
+        //         child: Icon(Icons.wb_cloudy_sharp)
+        //     ),
+        //     title: Text('Current'),
+        //     activeColor: secondaryColor,
+        //     inactiveColor: primaryColor
+        // ),
         BottomNavyBarItem(
             icon: Container(
-                child: Icon(Icons.wb_cloudy_sharp)
+                child: Icon(Icons.search)
             ),
-            title: Text('Current'),
+            title: Text('Search'),
             activeColor: secondaryColor,
             inactiveColor: primaryColor
         ),
