@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../utils/colors.dart';
 import '../utils/strings.dart';
 
@@ -69,7 +68,7 @@ class _HomeState extends State<Home> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                // margin: EdgeInsets.symmetric(horizontal: 20),
                 height: 50,
                 decoration: BoxDecoration(
                     color: Colors.white,

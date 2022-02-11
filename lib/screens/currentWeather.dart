@@ -1,14 +1,12 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../models/forcast.dart';
 import '../models/location.dart';
 import '../models/weather.dart';
-import '../utils/constants.dart';
 import '../utils/colors.dart';
-import '../utils/extensions.dart';
 import '../utils/helpers.dart';
-import 'package:intl/intl.dart';
+import '../utils/providers.dart';
+import '../widgets/weather_box.dart';
+
 
 class CurrentWeather extends StatefulWidget {
   final List<Location> locations;
@@ -42,8 +40,8 @@ class _CurrentWeatherState extends State<CurrentWeather> {
         body:
           ListView(
             children: [
-              currentWeatherViews(locations, location, this.context),
-              forecastHourlyViews(locations, location, this.context),
+              currentWeatherViews(location),
+              forecastHourlyViews(location),
               forecastDailyViews(location),
             ],
           )
@@ -51,11 +49,11 @@ class _CurrentWeatherState extends State<CurrentWeather> {
   }
 
   // Create Forecast Weather View
-  Widget forecastHourlyViews (List<Location> locations, Location location, BuildContext context){
+  Widget forecastHourlyViews (Location location){
     Forecast? _forecast;
 
     return FutureBuilder(
-        future: getForecast(location),
+        future: Providers.getForecast(location),
         builder: (context, AsyncSnapshot<Forecast?> snapshot){
           if (snapshot.hasData){
             _forecast = snapshot.data;
@@ -67,7 +65,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                   children: [
                     Container (
                         margin: const EdgeInsets.all(5.0),
-                        child: forecastHourlySection(_forecast!, context)
+                        child: forecastHourlySection(_forecast!)
                     )
                   ]
               );
@@ -83,7 +81,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     Forecast? _forecast;
 
     return FutureBuilder(
-        future: getForecast(location),
+        future: Providers.getForecast(location),
 
         builder: (context, AsyncSnapshot<Forecast?> snapshot){
           if (snapshot.hasData){
@@ -139,11 +137,11 @@ class _CurrentWeatherState extends State<CurrentWeather> {
   }
 
   // Create Current Weather View Widget
-  Widget currentWeatherViews (List<Location> locations, Location location, BuildContext context) {
+  Widget currentWeatherViews (Location location) {
     Weather? _weather;
 
     return FutureBuilder(
-      future: getCurrentWeather(location),
+      future: Providers.getCurrentWeather(location),
       builder: (context, AsyncSnapshot<Weather?> snapshot) {
         if (snapshot.hasData){
           _weather = snapshot.data;
@@ -152,7 +150,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
           } else {
             return  Column(
               children: [
-                weatherBox(_weather!),
+                WeatherBox(weather: _weather!),
               ],
             );
           }
@@ -164,7 +162,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
   }
 
   // Forecast Section
-  Widget forecastHourlySection(Forecast _forecast, BuildContext context){
+  Widget forecastHourlySection(Forecast _forecast){
 
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 0.0),
@@ -211,140 +209,4 @@ class _CurrentWeatherState extends State<CurrentWeather> {
         )
     );
   }
-
-  Widget weatherBox(Weather _weather) {
-    return Stack(children: [
-      Container(
-        padding: const EdgeInsets.all(15.0),
-        margin: const EdgeInsets.all(15.0),
-        height: 160.0,
-        decoration: const BoxDecoration(
-            color: Colors.lightBlueAccent,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-      ),
-      ClipPath(
-          clipper: Clipper(),
-          child: Container(
-              padding: const EdgeInsets.all(15.0),
-              margin: const EdgeInsets.all(15.0),
-              height: 160.0,
-              decoration: const BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.all(Radius.circular(20))))),
-      Container(
-          padding: const EdgeInsets.all(15.0),
-          margin: const EdgeInsets.all(15.0),
-          height: 160.0,
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Row(
-            children: [
-              Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Helpers.getWeatherIcon(_weather.icon),
-                        Container(
-                            margin: const EdgeInsets.all(5.0),
-                            child: Text(
-                              _weather.description.capitalizeFirstOfEach,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16,
-                                  color: Colors.white),
-                            )),
-                        Container(
-                            margin: const EdgeInsets.all(5.0),
-                            child: Text(
-                              "H:${_weather.high.toInt()}° L:${_weather.low.toInt()}°",
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 13,
-                                  color: Colors.white),
-                            )),
-                      ])),
-              Column(children: <Widget>[
-                Text(
-                  "${_weather.temp.toInt()}°",
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 60,
-                      color: Colors.white),
-                ),
-                Container(
-                    margin: const EdgeInsets.all(0),
-                    child: Text(
-                      "Feels like ${_weather.feelsLike.toInt()}°",
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13,
-                          color: Colors.white),
-                    )),
-              ])
-            ],
-          ))
-    ]);
-  }
 }
-
-
-class Clipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(0, size.height - 20);
-
-    path.quadraticBezierTo((size.width / 6) * 1, (size.height / 2) + 15,
-        (size.width / 3) * 1, size.height - 30);
-    path.quadraticBezierTo((size.width / 2) * 1, (size.height + 0),
-        (size.width / 3) * 2, (size.height / 4) * 3);
-    path.quadraticBezierTo((size.width / 6) * 5, (size.height / 2) - 20,
-        size.width, size.height - 60);
-
-    path.lineTo(size.width, size.height - 60);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(Clipper oldClipper) => false;
-}
-
-// get Current Weather
-Future<Weather?> getCurrentWeather(Location location) async {
-  Weather? weather;
-  String currentWeatherUrl = "$openWeatherUrl?q=${location.city}&appid=$apiKey";
-
-  Uri url = Uri.parse(currentWeatherUrl);
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    weather = Weather.fromJson(jsonDecode(response.body));
-  }
-
-  return weather;
-}
-
-Future<Forecast?> getForecast(Location location) async {
-  Forecast? forecast;
-  String forecastUrl =
-      "https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&appid=$apiKey&units=metric";
-
-  Uri url = Uri.parse(forecastUrl);
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    forecast = Forecast.fromJson(jsonDecode(response.body));
-  }
-
-  return forecast;
-}
-

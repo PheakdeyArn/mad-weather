@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
-import '../screens/home.dart';
-import '../navigations/buttom_navigations.dart';
 import '../models/location.dart';
-import '../screens/currentWeather.dart';
 import '../screens/search_screen.dart';
-
 import '../widgets/city_block.dart';
+
 
 class LocationScreens extends StatefulWidget {
   final List<Location> locations;

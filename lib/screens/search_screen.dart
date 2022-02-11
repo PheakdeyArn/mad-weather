@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp_madtwo/widgets/city_block.dart';
-import 'dart:convert';
 import '../widgets/search.dart';
 import '../utils/colors.dart';
-import 'package:http/http.dart' as http;
+import '../utils/providers.dart';
 import '../models/location.dart';
-import '../utils/constants.dart';
 
 
 class SearchTab extends StatefulWidget {
@@ -16,8 +14,7 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
-  // FirebaseServices _firebaseServices = FirebaseServices();
-  String _searchString = "";
+  String _searchKeyword = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,7 @@ class _SearchTabState extends State<SearchTab> {
       ),
       body: Stack(
         children: [
-          if (_searchString.isEmpty)
+          if (_searchKeyword.isEmpty)
             const Center(
               child: Text(
                 "Search Results",
@@ -37,7 +34,7 @@ class _SearchTabState extends State<SearchTab> {
             )
           else
             FutureBuilder(
-              future: getSearchCity(_searchString),
+              future: Providers.getLocation(_searchKeyword),
               builder: (context, AsyncSnapshot<Location?> snapshot) {
                 if (snapshot.hasError) {
                   return Scaffold(
@@ -63,7 +60,6 @@ class _SearchTabState extends State<SearchTab> {
                     );
                   }
                 }
-
                 // Loading
                 return const Scaffold(
                   body: Center(
@@ -74,13 +70,13 @@ class _SearchTabState extends State<SearchTab> {
             ),
           Padding(
             padding: const EdgeInsets.only(
-              top: 45.0,
+              top: 25.0,
             ),
             child: CustomInput(
               hintText: "Search here...",
               onSubmitted: (value) {
                 setState(() {
-                  _searchString = value.toLowerCase();
+                  _searchKeyword = value.toLowerCase();
                 });
               },
             ),
@@ -89,20 +85,4 @@ class _SearchTabState extends State<SearchTab> {
       ),
     );
   }
-
-}
-
-Future<Location?> getSearchCity(String location) async {
-  String city= location;
-  Location? getLocation;
-  String currentWeatherUrl = "$openWeatherUrl?q=$city&appid=$apiKey";
-
-  Uri url = Uri.parse(currentWeatherUrl);
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    getLocation = Location.fromJson(jsonDecode(response.body));
-  }
-
-  return getLocation;
 }

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import '../utils/colors.dart';
 
 class CustomInput extends StatelessWidget {
+
   final String? hintText;
   final Function(String)? onChanged;
   final Function(String)? onSubmitted;
-  final FocusNode? focusNode;
   final TextInputAction? textInputAction;
+
   bool? isPasswordField;
 
   CustomInput({
     this.hintText,
     this.onChanged,
     this.onSubmitted,
-    this.focusNode,
     this.textInputAction,
     this.isPasswordField
   });
@@ -31,21 +32,35 @@ class CustomInput extends StatelessWidget {
           color: const Color(0xFFF2F2F2),
           borderRadius: BorderRadius.circular(12.0)
       ),
-      child: TextField(
-        obscureText: _isPasswordField,
-        focusNode: focusNode,
-        onChanged: onChanged,
-        onSubmitted: onSubmitted,
-        textInputAction: textInputAction,
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hintText ?? "Hint Text...",
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
-              vertical: 20.0,
-            )
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0,10),
+                  blurRadius: 50,
+                  color: secondaryColor.withOpacity(0.1)
+              ),
+            ]
         ),
-        // style: Constants.regularDarkText,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: TextField(
+            obscureText: _isPasswordField,
+            onSubmitted: onSubmitted,
+            textInputAction: textInputAction,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: hintText ?? "Hint Text...",
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                )
+            ),
+            // style: Constants.regularDarkText,
+          ),
+        ),
       ),
     );
   }
