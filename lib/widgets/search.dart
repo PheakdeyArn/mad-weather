@@ -1,4 +1,3 @@
-// import 'package:a_commerce/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomInput extends StatelessWidget {
@@ -24,12 +23,12 @@ class CustomInput extends StatelessWidget {
     bool _isPasswordField = isPasswordField ?? false;
 
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 8.0,
         horizontal: 24.0,
       ),
       decoration: BoxDecoration(
-          color: Color(0xFFF2F2F2),
+          color: const Color(0xFFF2F2F2),
           borderRadius: BorderRadius.circular(12.0)
       ),
       child: TextField(
@@ -41,7 +40,7 @@ class CustomInput extends StatelessWidget {
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintText ?? "Hint Text...",
-            contentPadding: EdgeInsets.symmetric(
+            contentPadding: const EdgeInsets.symmetric(
               horizontal: 24.0,
               vertical: 20.0,
             )

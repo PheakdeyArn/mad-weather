@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import '../models/forcast.dart';
 import '../models/location.dart';
 import '../models/weather.dart';
-
 import 'package:http/http.dart' as http;
 import '../utils/constants.dart';
 import '../utils/colors.dart';
 import '../utils/extensions.dart';
-
 import 'package:intl/intl.dart';
 
 class CurrentWeather extends StatefulWidget {
@@ -21,14 +19,10 @@ class CurrentWeather extends StatefulWidget {
   _CurrentWeatherState createState() => _CurrentWeatherState(this.locations, this.context);
 }
 
-
 class _CurrentWeatherState extends State<CurrentWeather> {
-
   final List<Location> locations;
   final Location location;
   final BuildContext context;
-
-  Weather? _weather;
 
   _CurrentWeatherState(this.locations, this.context)
       : location = locations[0];
@@ -45,18 +39,17 @@ class _CurrentWeatherState extends State<CurrentWeather> {
           title:  Text(location.city),
         ),
         body:
-        ListView(
-          children: [
-            currentWeatherViews(locations, location, this.context),
-            forecastHourlyViews(locations, location, this.context),
-            forecastDailyViews(location),
-          ],
-        )
+          ListView(
+            children: [
+              currentWeatherViews(locations, location, this.context),
+              forecastHourlyViews(locations, location, this.context),
+              forecastDailyViews(location),
+            ],
+          )
     );
   }
 
-
-  // crreate Forcase Weather View
+  // Create Forecast Weather View
   Widget forecastHourlyViews (List<Location> locations, Location location, BuildContext context){
     Forecast? _forecast;
 
@@ -67,7 +60,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
             _forecast = snapshot.data;
 
             if (_forecast == null){
-              return const Text("Error fetching Forcast");
+              return const Text("Error fetching Forecast");
             } else {
               return Column (
                   children: [
@@ -144,7 +137,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
             }));
   }
 
-
   // Create Current Weather View Widget
   Widget currentWeatherViews (List<Location> locations, Location location, BuildContext context) {
     Weather? _weather;
@@ -170,6 +162,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     );
   }
 
+  // Forecast Section
   Widget forecastHourlySection(Forecast _forecast, BuildContext context){
 
     return Container(
@@ -179,7 +172,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
             padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
             scrollDirection: Axis.horizontal,
             itemCount: _forecast.hourly.length,
-
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   padding: const EdgeInsets.only(
@@ -197,30 +189,29 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                         )
                       ]),
                   child: Column(children: [
-                    Text(
-                      "${_forecast.hourly[index].temp}°",
-                      style:const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                          color: Colors.black),
-                    ),
-                    getWeatherIcon(_forecast.hourly[index].icon),
-
-                    Text(
-                      getTimeFromTimestamp(_forecast.hourly[index].dt),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                          color: Colors.grey),
-                    ),
-
-                  ]));
+                      Text(
+                        "${_forecast.hourly[index].temp}°",
+                        style:const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                            color: Colors.black),
+                      ),
+                      getWeatherIcon(_forecast.hourly[index].icon),
+                      Text(
+                        getTimeFromTimestamp(_forecast.hourly[index].dt),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: Colors.grey),
+                      ),
+                  ]),
+              );
             }
         )
     );
   }
 
-
+  // Get Time
   String getTimeFromTimestamp(int timestamp) {
     var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var formatter = DateFormat('h:mm a');
@@ -228,6 +219,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     return formatter.format(date);
   }
 
+  // Get Date
   String getDateFromTimestamp(int timestamp) {
     var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var formatter = DateFormat('E');
@@ -311,7 +303,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
           ))
     ]);
   }
-
 }
 
 Image getWeatherIcon(String _icon) {
@@ -382,7 +373,6 @@ Future<Forecast?> getForecast(Location location) async {
   Forecast? forecast;
   String lat = location.lat;
   String lon = location.lon;
-
   String forecastUrl =
       "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$apiKey&units=metric";
 

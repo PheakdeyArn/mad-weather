@@ -18,5 +18,4 @@ class Location {
       lon: json['coord']['lon'].toString(),
     );
   }
-
 }
