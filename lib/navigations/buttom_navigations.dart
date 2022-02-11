@@ -24,20 +24,24 @@ class _BottomBarState extends State<BottomNavigation> {
   DateTime date = DateTime (2022,12,24);
   int index = 0;
 
-  List<Location> haha = [
-    Location(city: "Phnom Penh", country: "Cambodia", lat: "51.5072", lon: "0.1276")
-  ];
-
-
-  final taps = [
-    Home(),
-    LocationScreens(),
-    // TestCurrent(),
-    SearchTab(),
+  // List<Location> haha = [
+  //   Location(city: "Phnom Penh", country: "Cambodia", lat: "51.5072", lon: "0.1276")
+  // ];
+  List<Location> locations = [
+    Location(city: "Phnom Penh", country: "Cambodia", lat: "11.5564", lon: "104.928"),
+    Location(city: "Battambang", country: "Cambodia", lat: "13.0957", lon: "103.2022"),
+    Location(city: "Siem Reap", country: "Cambodia", lat: "13.3633", lon: "103.8564"),
   ];
 
   @override
   Widget build(BuildContext context) {
+
+    final taps = [
+      CurrentWeather(locations, this.context),
+      LocationScreens(locations, this.context),
+      SearchTab(),
+    ];
+
     return Scaffold(
       body: taps[index],
       bottomNavigationBar: bottomNavigationBar(),
@@ -57,6 +61,7 @@ class _BottomBarState extends State<BottomNavigation> {
             activeColor: secondaryColor,
             inactiveColor: primaryColor
         ),
+
         BottomNavyBarItem(
             icon: Container(
                 child: Icon(Icons.location_on)
@@ -66,14 +71,6 @@ class _BottomBarState extends State<BottomNavigation> {
             inactiveColor: primaryColor
         ),
 
-        // BottomNavyBarItem(
-        //     icon: Container(
-        //         child: Icon(Icons.wb_cloudy_sharp)
-        //     ),
-        //     title: Text('Current'),
-        //     activeColor: secondaryColor,
-        //     inactiveColor: primaryColor
-        // ),
         BottomNavyBarItem(
             icon: Container(
                 child: Icon(Icons.search)

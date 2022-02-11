@@ -29,6 +29,7 @@ class _SearchTabState extends State<SearchTab> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: secondaryColor,
         title:  Text("Search"),
       ),
       body: Container(

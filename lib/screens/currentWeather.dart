@@ -9,35 +9,9 @@ import '../utils/constants.dart';
 import '../utils/colors.dart';
 import '../utils/extensions.dart';
 
-import '../models/daily.dart';
-import '../models/hourly.dart';
-
 import 'package:intl/intl.dart';
 
-
-class TestCurrent extends StatelessWidget {
-  List<Location> locations = [
-    Location(city: "Phnom Penh", country: "Cambodia", lat: "51.5072", lon: "0.1276")
-  ];
-
-  TestCurrent({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: CurrentWeather(locations, context),
-    );
-  }
-}
-
-
 class CurrentWeather extends StatefulWidget {
-
   final List<Location> locations;
   final BuildContext context;
 
@@ -67,6 +41,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: secondaryColor,
           title:  Text(location.city),
         ),
         body:
@@ -74,9 +49,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
           children: [
             currentWeatherViews(locations, location, this.context),
             forecastHourlyViews(locations, location, this.context),
-            forecastDailyViews(location)
-            // create forecast daily
-
+            forecastDailyViews(location),
           ],
         )
     );
@@ -141,13 +114,13 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     );
   }
 
-  Widget dailyBoxes(Forecast _forcast) {
+  Widget dailyBoxes(Forecast _forecast) {
     return Expanded(
         child: ListView.builder(
             shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
-            itemCount: _forcast.daily.length,
+            itemCount: _forecast.daily.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                   padding: const EdgeInsets.only(
@@ -156,21 +129,20 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                   child: Row(children: [
                     Expanded(
                         child: Text(
-                          "${getDateFromTimestamp(_forcast.daily[index].dt)}",
-                          style: TextStyle(fontSize: 14, color: Colors.black),
+                          getDateFromTimestamp(_forecast.daily[index].dt),
+                          style: const TextStyle(fontSize: 14, color: Colors.black),
                         )),
                     Expanded(
-                        child: getWeatherIconSmall(_forcast.daily[index].icon)),
+                        child: getWeatherIconSmall(_forecast.daily[index].icon)),
                     Expanded(
                         child: Text(
-                          "${_forcast.daily[index].high.toInt()}/${_forcast.daily[index].low.toInt()}",
+                          "${_forecast.daily[index].high.toInt()}/${_forecast.daily[index].low.toInt()}",
                           textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                          style: const TextStyle(fontSize: 14, color: Colors.grey),
                         )),
                   ]));
             }));
   }
-
 
 
   // Create Current Weather View Widget
@@ -199,11 +171,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
   }
 
   Widget forecastHourlySection(Forecast _forecast, BuildContext context){
-
-    List<Hourly> hourly = _forecast.hourly;
-
-    final List<String> entries = <String>['A'];
-    final List<int> colorCodes = <int>[600];
 
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 0.0),
@@ -283,9 +250,9 @@ class _CurrentWeatherState extends State<CurrentWeather> {
               padding: const EdgeInsets.all(15.0),
               margin: const EdgeInsets.all(15.0),
               height: 160.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.lightBlue,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))))),
+                  borderRadius: BorderRadius.all(Radius.circular(20))))),
       Container(
           padding: const EdgeInsets.all(15.0),
           margin: const EdgeInsets.all(15.0),
@@ -345,14 +312,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
     ]);
   }
 
-  Widget _currentWeather() {
-    return Column(
-      children: const [
-        Text("Current Weather Screen"),
-
-      ],
-    );
-  }
 }
 
 Image getWeatherIcon(String _icon) {
@@ -405,14 +364,12 @@ class Clipper extends CustomClipper<Path> {
 // get Current Weather
 Future<Weather?> getCurrentWeather(Location location) async {
   Weather? weather;
-
   String city= location.city;
+
   String currentWeatherUrl = "$openWeatherUrl?q=$city&appid=$apiKey";
 
   Uri url = Uri.parse(currentWeatherUrl);
   final response = await http.get(url);
-
-  // Response response1 = await get()
 
   if (response.statusCode == 200) {
     weather = Weather.fromJson(jsonDecode(response.body));

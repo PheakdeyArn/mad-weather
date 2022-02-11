@@ -5,24 +5,29 @@ import '../navigations/buttom_navigations.dart';
 import '../models/location.dart';
 import '../screens/currentWeather.dart';
 
+
+import '../screens/search_screen.dart';
+
 class LocationScreens extends StatefulWidget {
-  const LocationScreens({Key? key}) : super(key: key);
+  final List<Location> locations;
+  final BuildContext context;
+
+  const LocationScreens(this.locations, this.context);
 
   @override
-  _LocationState createState() => _LocationState();
+  _LocationState createState() => _LocationState(this.locations, this.context);
 }
 
 class _LocationState extends State<LocationScreens> {
 
+  final List<Location> locations;
+  final BuildContext context;
+
+  _LocationState(this.locations, this.context);
+
   bool isSearching = false;
   Icon actionIcon = Icon(Icons.search);
-  Widget appBarTitle = Text("Favourite");
-
-  List<Location> locations = [
-    Location(city: "Phnom Penh", country: "Cambodia", lat: "11.5564", lon: "104.928"),
-    Location(city: "Battambang", country: "Cambodia", lat: "13.0957", lon: "103.2022"),
-    Location(city: "Siem Reap", country: "Cambodia", lat: "13.3633", lon: "103.8564"),
-  ];
+  Widget appBarTitle = Text("Locations");
 
   @override
   Widget build(BuildContext context) {
@@ -134,25 +139,17 @@ class _LocationState extends State<LocationScreens> {
       elevation: 5,
       backgroundColor: secondaryColor,
       title: appBarTitle,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home())
-          );
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => BottomNavigation())
-          );
-        },
-      ),
       actions:<Widget>[
         IconButton(
             onPressed: (){
-              setState(() {
-                _action_search();
-              });
+
+              // setState(() {
+              //   _action_search();
+              // });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchTab())
+                  );
             },
             icon: actionIcon
         ),
