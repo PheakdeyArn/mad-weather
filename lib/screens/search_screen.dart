@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp_madtwo/widgets/city_block.dart';
+import '../widgets/city_block.dart';
 import '../widgets/search.dart';
 import '../utils/colors.dart';
 import '../utils/providers.dart';

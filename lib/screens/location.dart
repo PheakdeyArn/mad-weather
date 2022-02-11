@@ -7,20 +7,18 @@ import '../widgets/city_block.dart';
 
 class LocationScreens extends StatefulWidget {
   final List<Location> locations;
-  final BuildContext context;
 
-  const LocationScreens(this.locations, this.context);
+  const LocationScreens({Key? key, required this.locations}): super(key: key);
 
   @override
-  _LocationState createState() => _LocationState(this.locations, this.context);
+  _LocationState createState() => _LocationState(this.locations);
 }
 
 class _LocationState extends State<LocationScreens> {
 
   final List<Location> locations;
-  final BuildContext context;
 
-  _LocationState(this.locations, this.context);
+  _LocationState(this.locations);
 
   bool isSearching = false;
   Icon actionIcon = const Icon(Icons.search);

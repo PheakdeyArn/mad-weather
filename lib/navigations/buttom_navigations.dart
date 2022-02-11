@@ -32,9 +32,9 @@ class _BottomBarState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
 
     final taps = [
-      CurrentWeather(locations, this.context),
-      LocationScreens(locations, this.context),
-      SearchTab(),
+      CurrentWeather(locations: locations),
+      LocationScreens(locations: locations),
+      const SearchTab(),
     ];
 
     return Scaffold(

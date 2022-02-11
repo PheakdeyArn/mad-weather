@@ -12,7 +12,7 @@ class CityBlock extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CurrentWeather([location], context)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CurrentWeather(locations: [location])));
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 5),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/weather.dart';
-import '../utils/extensions.dart';
 import '../utils/helpers.dart';
 
 
@@ -19,7 +18,8 @@ class WeatherBox extends StatelessWidget {
         height: 160.0,
         decoration: const BoxDecoration(
             color: Colors.lightBlueAccent,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+            borderRadius: BorderRadius.all(Radius.circular(20))
+        ),
       ),
       ClipPath(
           clipper: Clipper(),
@@ -29,7 +29,10 @@ class WeatherBox extends StatelessWidget {
               height: 160.0,
               decoration: const BoxDecoration(
                   color: Colors.lightBlue,
-                  borderRadius: BorderRadius.all(Radius.circular(20))))),
+                  borderRadius: BorderRadius.all(Radius.circular(20))
+              )
+          )
+      ),
       Container(
           padding: const EdgeInsets.all(15.0),
           margin: const EdgeInsets.all(15.0),
@@ -47,7 +50,7 @@ class WeatherBox extends StatelessWidget {
                         Container(
                             margin: const EdgeInsets.all(5.0),
                             child: Text(
-                              weather.description.capitalizeFirstOfEach,
+                              weather.description.toUpperCase(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 16,
