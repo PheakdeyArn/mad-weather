@@ -1,12 +1,13 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../models/forcast.dart';
 import '../models/location.dart';
 import '../models/weather.dart';
-import 'package:http/http.dart' as http;
 import '../utils/constants.dart';
 import '../utils/colors.dart';
 import '../utils/extensions.dart';
+import '../utils/helpers.dart';
 import 'package:intl/intl.dart';
 
 class CurrentWeather extends StatefulWidget {
@@ -122,11 +123,11 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                   child: Row(children: [
                     Expanded(
                         child: Text(
-                          getDateFromTimestamp(_forecast.daily[index].dt),
+                          Helpers.getDateFromTimestamp(_forecast.daily[index].dt),
                           style: const TextStyle(fontSize: 14, color: Colors.black),
                         )),
                     Expanded(
-                        child: getWeatherIconSmall(_forecast.daily[index].icon)),
+                        child: Helpers.getWeatherIconSmall(_forecast.daily[index].icon)),
                     Expanded(
                         child: Text(
                           "${_forecast.daily[index].high.toInt()}/${_forecast.daily[index].low.toInt()}",
@@ -196,9 +197,9 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                             fontSize: 17,
                             color: Colors.black),
                       ),
-                      getWeatherIcon(_forecast.hourly[index].icon),
+                      Helpers.getWeatherIcon(_forecast.hourly[index].icon),
                       Text(
-                        getTimeFromTimestamp(_forecast.hourly[index].dt),
+                        Helpers.getTimeFromTimestamp(_forecast.hourly[index].dt),
                         style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
@@ -209,21 +210,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
             }
         )
     );
-  }
-
-  // Get Time
-  String getTimeFromTimestamp(int timestamp) {
-    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    var formatter = DateFormat('h:mm a');
-
-    return formatter.format(date);
-  }
-
-  // Get Date
-  String getDateFromTimestamp(int timestamp) {
-    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    var formatter = DateFormat('E');
-    return formatter.format(date);
   }
 
   Widget weatherBox(Weather _weather) {
@@ -258,7 +244,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        getWeatherIcon(_weather.icon),
+                        Helpers.getWeatherIcon(_weather.icon),
                         Container(
                             margin: const EdgeInsets.all(5.0),
                             child: Text(
@@ -305,26 +291,6 @@ class _CurrentWeatherState extends State<CurrentWeather> {
   }
 }
 
-Image getWeatherIcon(String _icon) {
-  String path = 'assets/icons/';
-  String imageExtension = '.png';
-
-  return Image.asset(
-    path + _icon + imageExtension,
-    width: 70,
-    height: 70,
-  );
-}
-
-Image getWeatherIconSmall(String _icon) {
-  String path = 'assets/icons/';
-  String imageExtension = ".png";
-  return Image.asset(
-    path + _icon + imageExtension,
-    width: 40,
-    height: 40,
-  );
-}
 
 class Clipper extends CustomClipper<Path> {
   @override
@@ -355,9 +321,7 @@ class Clipper extends CustomClipper<Path> {
 // get Current Weather
 Future<Weather?> getCurrentWeather(Location location) async {
   Weather? weather;
-  String city= location.city;
-
-  String currentWeatherUrl = "$openWeatherUrl?q=$city&appid=$apiKey";
+  String currentWeatherUrl = "$openWeatherUrl?q=${location.city}&appid=$apiKey";
 
   Uri url = Uri.parse(currentWeatherUrl);
   final response = await http.get(url);
@@ -371,10 +335,8 @@ Future<Weather?> getCurrentWeather(Location location) async {
 
 Future<Forecast?> getForecast(Location location) async {
   Forecast? forecast;
-  String lat = location.lat;
-  String lon = location.lon;
   String forecastUrl =
-      "https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$lon&appid=$apiKey&units=metric";
+      "https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&appid=$apiKey&units=metric";
 
   Uri url = Uri.parse(forecastUrl);
   final response = await http.get(url);
