@@ -55,5 +55,4 @@ class ForecastHourly extends StatelessWidget {
         )
     );
   }
-
 }

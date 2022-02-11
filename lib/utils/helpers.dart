@@ -36,5 +36,5 @@ class Helpers {
       height: 40,
     );
   }
-
 }
+

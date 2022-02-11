@@ -68,5 +68,4 @@ class _LocationState extends State<LocationScreens> {
       ],
     );
   }
-
 }

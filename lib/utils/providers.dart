@@ -50,5 +50,4 @@ class Providers {
 
     return location;
   }
-
 }
