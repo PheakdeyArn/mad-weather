@@ -22,7 +22,7 @@ class WeatherBox extends StatelessWidget {
         ),
       ),
       ClipPath(
-          clipper: Clipper(),
+          // clipper: Clipper(),
           child: Container(
               padding: const EdgeInsets.all(15.0),
               margin: const EdgeInsets.all(15.0),
@@ -59,7 +59,7 @@ class WeatherBox extends StatelessWidget {
                         Container(
                             margin: const EdgeInsets.all(5.0),
                             child: Text(
-                              "H:${weather.high.toInt()}° L:${weather.low.toInt()}°",
+                              "H:${ Helpers.kelvinToCelsius(weather.high).toInt()}° L:${Helpers.kelvinToCelsius(weather.low).toInt()}°",
                               textAlign: TextAlign.left,
                               style: const TextStyle(
                                   fontWeight: FontWeight.normal,
@@ -69,7 +69,7 @@ class WeatherBox extends StatelessWidget {
                       ])),
               Column(children: <Widget>[
                 Text(
-                  "${weather.temp.toInt()}°",
+                  "${Helpers.kelvinToCelsius(weather.temp).toInt()}°",
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class WeatherBox extends StatelessWidget {
                 Container(
                     margin: const EdgeInsets.all(0),
                     child: Text(
-                      "Feels like ${weather.feelsLike.toInt()}°",
+                      "Feels like ${Helpers.kelvinToCelsius(weather.feelsLike).toInt()}°",
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                           fontWeight: FontWeight.normal,

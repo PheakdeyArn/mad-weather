@@ -6,6 +6,8 @@ import '../screens/currentWeather.dart';
 import '../screens/search_screen.dart';
 import '../models/location.dart';
 
+import '../utils/providers.dart';
+
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -27,6 +29,14 @@ class _BottomBarState extends State<BottomNavigation> {
     Location(city: "Kep", country: "Cambodia", lat: "10.5432", lon: "104.3191"),
     Location(city: "Ratanakiri", country: "Cambodia", lat: "13.8577", lon: "107.1012"),
   ];
+
+  List<Location> test = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

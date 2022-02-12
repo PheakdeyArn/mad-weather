@@ -50,4 +50,21 @@ class Providers {
 
     return location;
   }
+
+  static Future<List<Location>> getListLocations () async {
+    List<Location> locations = [];
+
+    String url = 'http://192.168.1.19:8000/location/';
+
+    Uri getLocations = Uri.parse(url);
+    final response = await http.get(getLocations);
+
+    if (response.statusCode == 200) {
+      var data = response.body;
+      locations = (data as List).map((data) => Location.fromDjango(data)).toList();
+    }
+
+    return locations;
+  }
+
 }

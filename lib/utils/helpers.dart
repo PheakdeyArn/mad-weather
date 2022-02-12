@@ -36,5 +36,10 @@ class Helpers {
       height: 40,
     );
   }
+
+  static double kelvinToCelsius(double temp){
+    return temp - 273.15;
+  }
+
 }
 

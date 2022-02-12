@@ -18,4 +18,14 @@ class Location {
       lon: json['coord']['lon'].toString(),
     );
   }
+
+  factory Location.fromDjango(Map<String, dynamic> json) {
+    return Location(
+      city: json['name'],
+      country: json['country'],
+      lat: json['lat'],
+      lon: json['lon'],
+    );
+  }
+
 }
