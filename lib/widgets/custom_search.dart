@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 
-class CustomInput extends StatelessWidget {
+class CustomSearch extends StatelessWidget {
 
   final String? hintText;
   final Function(String)? onChanged;
@@ -10,7 +10,7 @@ class CustomInput extends StatelessWidget {
 
   bool? isPasswordField;
 
-  CustomInput({
+  CustomSearch({
     this.hintText,
     this.onChanged,
     this.onSubmitted,

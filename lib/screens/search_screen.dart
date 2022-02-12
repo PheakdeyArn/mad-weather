@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import '../widgets/city_block.dart';
-import '../widgets/search.dart';
+import '../widgets/custom_search.dart';
 import '../utils/colors.dart';
 import '../utils/providers.dart';
 import '../models/location.dart';
 
 
-class SearchTab extends StatefulWidget {
-  const SearchTab({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  _SearchTabState createState() => _SearchTabState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _SearchTabState extends State<SearchTab> {
+class _SearchScreenState extends State<SearchScreen> {
   String _searchKeyword = "";
 
   @override
@@ -51,7 +51,7 @@ class _SearchTabState extends State<SearchTab> {
                           bottom: 12.0,
                         ),
                         children: [
-                          CityBlock(location: snapshot.data!),
+                          LocationBlock(location: snapshot.data!),
                         ]
                     );
                   } else {
@@ -72,7 +72,7 @@ class _SearchTabState extends State<SearchTab> {
             padding: const EdgeInsets.only(
               top: 25.0,
             ),
-            child: CustomInput(
+            child: CustomSearch(
               hintText: "Search here...",
               onSubmitted: (value) {
                 setState(() {

@@ -44,7 +44,7 @@ class _LocationState extends State<LocationScreens> {
             padding: const EdgeInsets.only(left: 8, top: 0, bottom: 0, right: 8),
             itemCount: locations.length,
             itemBuilder: (BuildContext context, int index) {
-              return CityBlock(location: locations[index]);
+              return LocationBlock(location: locations[index]);
             })
     );
   }
@@ -60,7 +60,7 @@ class _LocationState extends State<LocationScreens> {
             onPressed: (){
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchTab())
+                  MaterialPageRoute(builder: (context) => SearchScreen())
               );
             },
             icon: actionIcon

@@ -3,9 +3,9 @@ import '../models/location.dart';
 import '../screens/currentWeather.dart';
 import '../utils/colors.dart';
 
-class CityBlock extends StatelessWidget {
+class LocationBlock extends StatelessWidget {
   final Location location;
-  const CityBlock({Key? key, required this.location}): super(key: key);
+  const LocationBlock({Key? key, required this.location}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

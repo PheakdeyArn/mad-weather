@@ -44,7 +44,7 @@ class _BottomBarState extends State<BottomNavigation> {
     final taps = [
       CurrentWeather(locations: locations),
       LocationScreens(locations: locations),
-      const SearchTab(),
+      const SearchScreen(),
     ];
 
     return Scaffold(

@@ -51,6 +51,8 @@ class Providers {
     return location;
   }
 
+
+  // get Locations for Django API
   static Future<List<Location>> getListLocations () async {
     List<Location> locations = [];
 
